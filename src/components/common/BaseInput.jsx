@@ -1,18 +1,24 @@
+import React from 'react';
 import { Form, Input } from 'antd';
+import '../../style.css';
 
-const BaseInput = ({ name, label, rules, placeholder, prefix, type = "text", ...rest }) => {
+const BaseInput = ({ label, error, placeholder, prefix, type = "text", ...field }) => {
   const InputComponent = type === "password" ? Input.Password : Input;
 
   return (
-    <Form.Item name={name} label={label} rules={rules}>
+    <Form.Item 
+      label={label} 
+      layout="vertical"
+      className="custom-input-wrapper"
+      validateStatus={error ? "error" : ""} 
+      help={error?.message}
+    >
       <InputComponent
+        {...field} // Isse value aur onChange automatically connect ho jayenge
         prefix={prefix}
         placeholder={placeholder}
         size="large"
-        {...rest}
-        style={{
-          marginLeft: "0"
-        }}/>
+      />
     </Form.Item>
   );
 };

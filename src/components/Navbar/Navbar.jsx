@@ -2,22 +2,24 @@ import React from 'react';
 import { Layout, Button, Typography } from 'antd';
 import { LogoutOutlined } from '@ant-design/icons';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { useDispatch } from "react-redux";
+import { setLogout } from "../../store/auth/authSlice";
 
 const { Header } = Layout;
 const { Title } = Typography;
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const user = JSON.parse(localStorage.getItem("currentUser"));
 
-  if (!user) {
-    return <Navigate to="/login" />;
-  }
 
   const handleSignOut = () => {
-    localStorage.removeItem("currentUser");
-    navigate("/login");
-  };
+  localStorage.removeItem("currentUser");
+  dispatch(setLogout());   // 👈 IMPORTANT
+  navigate("/login");
+};
 
   return (
     <Header style={{ 
